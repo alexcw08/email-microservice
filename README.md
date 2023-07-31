@@ -19,3 +19,7 @@ This microservice uses a TCP server and client. The client sends the server JSON
 2. Receive to `html` until length matches the length received prior  
    `res = clientSocket.recv(2024).decode()`
    `html += res`
+
+# UML
+
+![UML](UML.png)
