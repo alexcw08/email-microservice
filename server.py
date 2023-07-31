@@ -64,11 +64,6 @@ while True:
         <h2>Ledger summary: {summary}</h2>
     </body>
     </html>'''
-    # send html size and data
-    htmlLen = str(len(html))
-    print('sending length of html:', htmlLen)
-    print('')
-    commSocket.send(htmlLen.encode())
     commSocket.send(html.encode())
     print('sending html')
     commSocket.close()

@@ -103,16 +103,12 @@ print('')
 print("Sent Ledger to server successfully.")
 
 # RECEIVING HTML from SERVER
-# receive size of html file
-htmlLen = clientSocket.recv(1024).decode()
-htmlLen = int(htmlLen)
 html = ''
 while True:
     res = clientSocket.recv(2024).decode()
     html += res
 
-    # if client has received the entire html file
-    if len(html) == htmlLen:
+    if not res:
         print('')
         print('HTML received from server:', html)
         # create email.html
