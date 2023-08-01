@@ -8,6 +8,20 @@ PORT = 65432
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((HOST, PORT))
 
+def extractData(ledger):
+    title = ledger['ledger'][0]['title']
+    date = ledger['ledger'][4]['date']
+    people = [person['name'] for person in ledger['ledger'][2]['persons']]
+    people = ', '.join(people)
+    summary = ledger['ledger'][1]['summary']
+    items = ledger['ledger'][3]['items']
+    htmlTable = []
+    for item in items:
+        htmlTable.append(f"<tr><td>{item['item']}</td><td>{item['amount']}</td><td>{item['date']}</td><td>{item['paid_by']}</td></tr>")
+    htmlTable = ''.join(htmlTable)
+
+    return title, date, people, summary, htmlTable
+
 def generateHTML(title, date, people, summary, table):
     html = f'''<!DOCTYPE html>
     <html lang="en">
@@ -45,23 +59,11 @@ while True:
     ledgerData = commSocket.recv(1024).decode()
     print(f'Server received: {ledgerData}\n')
 
-    # convert string to dictionary
     ledgerData = json.loads(ledgerData)
-    # extract the necessary info from data
-    title = ledgerData['ledger'][0]['title']
-    date = ledgerData['ledger'][4]['date']
-    people = []
-    for person in ledgerData['ledger'][2]['persons']:
-        people.append(person['name'])
-    people = ', '.join(people)
-    summary = ledgerData['ledger'][1]['summary']
-    items = ledgerData['ledger'][3]['items']
-    htmlTable = []
-    for item in items:
-        htmlTable.append(f"<tr><td>{item['item']}</td><td>{item['amount']}</td><td>{item['date']}</td><td>{item['paid_by']}</td></tr>")
-    htmlTable = ''.join(htmlTable)
 
+    title, date, people, summary, htmlTable = extractData(ledgerData)
     html = generateHTML(title, date, people, summary, htmlTable)
+
     commSocket.send(html.encode())
     print('sending html')
     commSocket.close()
