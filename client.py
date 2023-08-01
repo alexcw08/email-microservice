@@ -7,8 +7,7 @@ HOST = 'localhost'
 PORT = 65432
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 clientSocket.connect((HOST, PORT))
-print(f"Connected to server:{HOST}:{PORT}...")
-print('')
+print(f"Connected to server:{HOST}:{PORT}... \n")
 
 # json to test with
 ledgerJSON = {
@@ -93,14 +92,11 @@ ledgerJSON = {
     ]
 }
 
-# convert to string
 ledgerStr = json.dumps(ledgerJSON)
 
-# SENDING TO SERVER
-print(f"Sending Ledger to server\n\t{ledgerStr}")
+print(f"Sending Ledger to server\n\t{ledgerStr} \n")
 clientSocket.send(ledgerStr.encode())
-print('')
-print("Sent Ledger to server successfully.")
+print("Sent Ledger to server successfully. \n")
 
 # RECEIVING HTML from SERVER
 html = ''
@@ -109,14 +105,12 @@ while True:
     html += res
 
     if not res:
-        print('')
-        print('HTML received from server:', html)
+        print(f'HTML received from server: {html} \n')
         # create email.html
         filename = 'email.html'
         file = open(filename, 'w')
         file.write(html)
         file.close()
-        print('')
         print('email.html has been created')
         break
 
