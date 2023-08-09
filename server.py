@@ -67,7 +67,6 @@ while True:
     while True:
         data = commSocket.recv(1024).decode()
         ledgerData += data
-        # print('in second while loop')
         if len(ledgerData) == dataLen:
             print(f'Server received: {ledgerData}\n')
             ledgerData = json.loads(ledgerData)
