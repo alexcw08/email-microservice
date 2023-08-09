@@ -39,7 +39,8 @@ def generateHTML(title, date, people, summary, table):
     {table}
     </table>
     <p>Note that items with an " * " means they have been edited. Items with "del" have been removed from the summary.</p>
-        <h2>Ledger summary: {summary}</h2>
+        <h2>Ledger summary: </h2>
+        <p>{summary}</p>
     </body>
     </html>'''
 
@@ -61,7 +62,7 @@ while True:
     print(f'length of data to receive: {dataLen} \n')
     # LENGTH VERIFICATION
     commSocket.send(str(dataLen).encode())
-    
+
     ledgerData = ''
     while True:
         data = commSocket.recv(1024).decode()
